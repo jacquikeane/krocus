@@ -9,15 +9,28 @@ Genome sequencing is rapidly being adopted in reference labs and hospitals for b
 # Installation
 The only dependancy is Python3. Assuming you have python 3.3+ and pip installed, just run:
 ```
+pip3 install krocus
+```
+
+or if you wish to install the latest development version:
+```
 pip3 install git+git://github.com/andrewjpage/krocus.git
 ```
+
+On some systems pip3 may be just called pip.
 
 ## Debian/Ubuntu (Trusty/Xenial)
 To install Python3 on Ubuntu, as root run:
 ```
 apt-get update -qq
 apt-get install -y git python3 python3-setuptools python3-biopython python3-pip
-pip3 install git+git://github.com/andrewjpage/krocus.git
+pip3 install krocus
+```
+
+## Conda
+First install Conda (Python3), then run:
+```
+conda install  krocus
 ```
 
 ## Windows
@@ -104,6 +117,16 @@ __filtered_reads_file__: If you provide a filename for this option, all of the r
 __output_file__: By default the predicted sequence types are printed to screen (STDOUT). If a filename is provided, the predicted sequence types are instead printed to this file.  This file should not already exist. 
 
 __print_interval__: Print out the predicted sequence type every X number of reads. This is where you are performing analysis in real time and want a quick result.
+
+# Output
+The output format is: the predicted sequence type (ST) number (column 1), the percentage k-mer coverage of the alleles (0-100) (column 2), the specific alleles identified. For each allele the name of the gene is noted and the allele number, which corresponds to a unique sequence, is given in brackets. If there is only a partial match a start (*) is appended.
+
+```
+323	97.23	infB(1)	pgi(1)	phoE(9)*	tonB(93)	rpoB(1)*	gapA(2)	mdh(1)
+```
+In the above example the sequence type is 323,and 97.23% of k-mers making up 323 are covered by reads. 2 of the alleles are have k-mers which were not identified in the reads, possibly due to errors in the reads encountered or no reads covering that region were found. 
+
+
 
 # Resource usage
 For an 550Mbyte FASTQ file (unzipped) of long reads from a Pacbio RSII containing Salmonella required 550MB of RAM.
