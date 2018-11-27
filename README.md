@@ -1,13 +1,38 @@
 # Krocus
+Predict MLST directly from uncorrected long reads
+
+[![Build Status](https://travis-ci.org/sanger-pathogens/krocus.svg?branch=master)](https://travis-ci.org/sanger-pathogens/krocus)   
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg)](https://github.com/sanger-pathogens/krocus/blob/master/LICENSE)   
+[![status](https://img.shields.io/badge/PeerJ-10.7717-brightgreen.svg)](https://peerj.com/articles/5233/)   
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square)](http://bioconda.github.io/recipes/krocus/README.html)   
+[![Container ready](https://img.shields.io/badge/container-ready-brightgreen.svg)](https://quay.io/repository/biocontainers/krocus)  
+
+## Contents
+  * [Introduction](#introduction)
+  * [Installation](#installation)
+    * [Using pip](#using-pip)
+    * [Debian/Ubuntu (Trusty/Xenial)](#debianubuntu-trustyxenial)
+    * [Conda](#conda)
+    * [Windows](#windows)
+    * [Running the tests](#running-the-tests)
+  * [Usage](#usage)
+    * [krocus\_database\_downloader script](#krocus_database_downloader-script)
+    * [krocus script](#krocus-script)
+    * [Required](#required)
+    * [Options](#options)
+    * [Output](#output)
+    * [Resource usage](#resource-usage)
+  * [License](#license)
+  * [Feedback/Issues](#feedbackissues)
+  * [Citation](#citation)
+
+## Introduction
 Genome sequencing is rapidly being adopted in reference labs and hospitals for bacterial outbreak investigation and diagnostics where time is critical. Seven gene multi-locus sequence typing is a standard tool for broadly classifying samples into sequence types, allowing, in many cases, to rule a sample in or out of an outbreak, or allowing for general characteristics about a bacterial strain to be inferred. Long read sequencing technologies, such as from PacBio or Oxford Nanopore, can produce read data within minutes of an experiment starting, unlike short read sequencing technologies which require many hours/days. However, the error rates of raw uncorrected long read data are very high. We present Krocus which can predict a sequence type directly from uncorrected long reads, and which was designed to consume read data as it is produced, providing results in minutes. It is the only tool which can do this from uncorrected long reads. We tested Krocus on over 600 samples sequenced with using long read sequencing technologies from PacBio and Oxford Nanopore. It provides sequence types on average within 90 seconds, with a sensitivity of 94% and specificity of 97%, directly from uncorrected raw sequence reads. The software is written in Python and is available under the open source license GNU GPL version 3.
 
-[![Build Status](https://travis-ci.org/andrewjpage/krocus.svg?branch=master)](https://travis-ci.org/andrewjpage/krocus)
+## Installation
+There are a number of ways to install Krocus and details are provided below. If you encounter an issue when installing Krocus please contact your local system administrator. If you encounter a bug please email us at path-help@sanger.ac.uk.
 
-# Paper
-"Rapid multi-locus sequence typing direct from uncorrected long reads using Krocus", Andrew J. Page, Jacqueline A. Keane, bioRxiv 259150; (2018) doi: https://doi.org/10.1101/259150
-
-# Installation
-The only dependancy is Python3. Assuming you have python 3.3+ and pip installed, just run:
+### Using pip
 ```
 pip3 install krocus
 ```
@@ -19,7 +44,7 @@ pip3 install git+git://github.com/andrewjpage/krocus.git
 
 On some systems pip3 may be just called pip.
 
-## Debian/Ubuntu (Trusty/Xenial)
+### Debian/Ubuntu (Trusty/Xenial)
 To install Python3 on Ubuntu, as root run:
 ```
 apt-get update -qq
@@ -27,17 +52,22 @@ apt-get install -y git python3 python3-setuptools python3-biopython python3-pip
 pip3 install krocus
 ```
 
-## Conda
+### Conda
 First install Conda (Python3), then run:
 ```
 conda install  krocus
 ```
 
-## Windows
+### Windows
 Like virtually all Bioinformatics software, this software is unlikely to work on Windows. Try using a Linux virtual machine.
 
-# Usage
-## krocus_database_downloader script
+### Running the tests
+The test can be run from the top level directory:  
+
+`./run_tests.sh`
+
+## Usage
+### krocus_database_downloader script
 First of all you need MLST databases. There is a snapshot bundled with this repository for your convenience, or alternatively you can use the downloader script to get the latest data. You will need internet access for this step.
 
 ```
@@ -67,7 +97,7 @@ krocus_database_downloader  --species "Salmonella enterica" --output_directory S
 ```
 You will now have a directory called __Salmonella_enterica___ which can be provided to the main script.
 
-## krocus script
+### krocus script
 This is the main script of the application. The manditory inputs are a directory containing an MLST database (from the previous step), and a FASTQ file, which can be optionally gzipped.
 ```
 usage: krocus [options] allele_directory input.fastq
@@ -118,7 +148,7 @@ __output_file__: By default the predicted sequence types are printed to screen (
 
 __print_interval__: Print out the predicted sequence type every X number of reads. This is where you are performing analysis in real time and want a quick result.
 
-# Output
+### Output
 The output format is: the predicted sequence type (ST) number (column 1), the percentage k-mer coverage of the alleles (0-100) (column 2), the specific alleles identified. For each allele the name of the gene is noted and the allele number, which corresponds to a unique sequence, is given in brackets. If there is only a partial match a start (*) is appended.
 
 ```
@@ -126,9 +156,16 @@ The output format is: the predicted sequence type (ST) number (column 1), the pe
 ```
 In the above example the sequence type is 323,and 97.23% of k-mers making up 323 are covered by reads. 2 of the alleles are have k-mers which were not identified in the reads, possibly due to errors in the reads encountered or no reads covering that region were found. 
 
-
-
-# Resource usage
+### Resource usage
 For an 550Mbyte FASTQ file (unzipped) of long reads from a Pacbio RSII containing Salmonella required 550MB of RAM.
 
+## License
+Krocus is free software, licensed under [GPLv3](https://github.com/sanger-pathogens/krocus/blob/master/LICENSE).
 
+## Feedback/Issues
+Please report any issues to path-help@sanger.ac.uk.
+
+## Citation
+If you use this software please cite:   
+
+"Rapid multi-locus sequence typing direct from uncorrected long reads using Krocus", Andrew J. Page, Jacqueline A. Keane, bioRxiv 259150; (2018) doi: https://doi.org/10.1101/259150
