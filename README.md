@@ -14,6 +14,7 @@ Predict MLST directly from uncorrected long reads
     * [Debian/Ubuntu (Trusty/Xenial)](#debianubuntu-trustyxenial)
     * [Conda](#conda)
     * [Windows](#windows)
+    * [Running the tests](#running-the-tests)
   * [Usage](#usage)
     * [krocus\_database\_downloader script](#krocus_database_downloader-script)
     * [krocus script](#krocus-script)
@@ -59,6 +60,11 @@ conda install  krocus
 
 ### Windows
 Like virtually all Bioinformatics software, this software is unlikely to work on Windows. Try using a Linux virtual machine.
+
+### Running the tests
+The test can be run from the top level directory:  
+
+`./run_tests.sh`
 
 ## Usage
 ### krocus_database_downloader script
